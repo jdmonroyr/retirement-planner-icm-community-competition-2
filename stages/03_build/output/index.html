@@ -15,7 +15,7 @@
     --marker-amber:#D9660A;
     --marker-amber-dark:#B8530A;
     --marker-green:#2E8B57;
-    --marker-coral:#D14D3E;
+    --marker-purple:#6B4FA0;
     --gray:#8B8880;
     --card:#FFFFFF;
     --border:rgba(32,36,31,0.16);
@@ -179,7 +179,7 @@
   .result-headline{font-size:1.5rem; margin-bottom:14px;}
   .result-headline.ahead{color:var(--marker-green);}
   .result-headline.on-track{color:var(--marker-amber-dark);}
-  .result-headline.behind{color:var(--marker-coral);}
+  .result-headline.behind{color:var(--marker-purple);}
 
   .paths{margin:20px 0; display:flex; flex-direction:column; gap:10px;}
   .path{
@@ -204,6 +204,47 @@
   }
   .start-over:hover{color:var(--ink);}
 
+  .name-field{margin:22px 0 4px;}
+  .name-field label{
+    display:block;
+    font-size:.85rem;
+    color:var(--gray);
+    margin-bottom:6px;
+  }
+  input[type="text"]{
+    width:100%;
+    font-family:'Inter',sans-serif;
+    font-size:1rem;
+    padding:11px 14px;
+    border:2px solid var(--border);
+    border-radius:10px;
+    background:var(--board);
+    color:var(--ink);
+    outline:none;
+  }
+  input[type="text"]:focus{border-color:var(--marker-amber); box-shadow:0 0 0 3px rgba(217,102,10,0.16);}
+
+  .site-footer{
+    text-align:center;
+    margin-top:22px;
+    padding:0 12px;
+  }
+  .site-footer .sig{
+    font-family:'Kalam','Segoe Print','Bradley Hand',cursive;
+    font-weight:700;
+    font-size:1.1rem;
+    color:var(--marker-blue);
+    display:inline-block;
+    transform:rotate(-1deg);
+    margin-bottom:4px;
+  }
+  .site-footer .grounding{
+    font-size:.78rem;
+    color:var(--gray);
+    line-height:1.5;
+    margin:0;
+  }
+
   @media (max-width:420px){
     .card{padding:28px 22px; border-radius:12px;}
     h1{font-size:1.4rem;}
@@ -223,6 +264,10 @@
       <p class="lede">Every client asks me the same thing in our first meeting: am I okay, or are we okay?</p>
       <p class="lede">That question was never really about the number. It's about whether you get to spend your time the way you want, with the people you want to spend it with.</p>
       <p class="lede">Five quick questions, about three minutes, and you'll know where you stand before we ever talk.</p>
+      <div class="name-field">
+        <label for="input-name">What's your first name? (optional)</label>
+        <input type="text" id="input-name" maxlength="30" placeholder="David" autocomplete="given-name">
+      </div>
       <button class="btn btn-primary" id="btn-start">Let's find out</button>
     </section>
 
@@ -319,6 +364,11 @@
     </section>
 
   </div>
+
+  <footer class="site-footer">
+    <span class="sig">— Marcus</span>
+    <p class="grounding">Denver financial planning, 12 years in.<br>This is a quick estimate — the real conversation happens on the call.</p>
+  </footer>
 </div>
 
 <script>
@@ -342,7 +392,11 @@
     }
   });
 
-  var values = { age:null, income:null, savings:null, monthly:null, targetAge:null };
+  var values = { name:"", age:null, income:null, savings:null, monthly:null, targetAge:null };
+
+  document.getElementById("input-name").addEventListener("input", function(e){
+    values.name = e.target.value.trim();
+  });
 
   function bindStep(stepNum, inputId, backTarget, key, validate){
     var input = document.getElementById(inputId);
@@ -388,8 +442,8 @@
   bindStep(5, "input-target-age", "screen-4", "targetAge", isAge);
 
   document.getElementById("start-over").addEventListener("click", function(){
-    values = { age:null, income:null, savings:null, monthly:null, targetAge:null };
-    ["input-age","input-income","input-savings","input-monthly","input-target-age"].forEach(function(id){
+    values = { name:"", age:null, income:null, savings:null, monthly:null, targetAge:null };
+    ["input-name","input-age","input-income","input-savings","input-monthly","input-target-age"].forEach(function(id){
       document.getElementById(id).value = "";
     });
     [1,2,3,4,5].forEach(function(n){ document.getElementById("next-" + n).disabled = true; });
@@ -407,6 +461,9 @@
   }
 
   function fmt(v){ return "$" + Math.round(v).toLocaleString("en-US"); }
+  function personalize(name, sentence){
+    return name ? name + ", " + sentence.charAt(0).toLowerCase() + sentence.slice(1) : sentence;
+  }
   function roundToThousand(v){ return Math.round(v / 1000) * 1000; }
   function roundToTwentyFive(v){ return Math.round(v / 25) * 25; }
 
@@ -479,21 +536,21 @@
     pathsEl.innerHTML = "";
     headlineEl.className = "result-headline " + r.status;
 
-    var accentVar = r.status === "ahead" ? "var(--marker-green)" : r.status === "on-track" ? "var(--marker-amber-dark)" : "var(--marker-coral)";
+    var accentVar = r.status === "ahead" ? "var(--marker-green)" : r.status === "on-track" ? "var(--marker-amber-dark)" : "var(--marker-purple)";
     drawCircle(accentVar);
 
     if (r.status === "ahead"){
       var Y = fmt(roundToThousand(-r.gap));
-      headlineEl.textContent = "You're ahead of where you need to be.";
+      headlineEl.textContent = personalize(values.name, "You're ahead of where you need to be.");
       bodyEl.innerHTML = "You need around <strong>" + Z + "</strong> — that's <strong>" + Y + "</strong> ahead. Nice work.";
       closerEl.textContent = "That's not just enough — that's room to actually enjoy it, not just get by.";
     } else if (r.status === "on-track"){
-      headlineEl.textContent = "You're on track.";
+      headlineEl.textContent = personalize(values.name, "You're on track.");
       bodyEl.innerHTML = "That's right around the <strong>" + Z + "</strong> you need. Keep doing what you're doing.";
       closerEl.textContent = "That's real room to spend that time on what matters, not just get through it.";
     } else {
       var gapFmt = fmt(roundToThousand(r.gap));
-      headlineEl.textContent = "You're behind — here's the gap, and here's how to close it.";
+      headlineEl.textContent = personalize(values.name, "You're behind — here's the gap, and here's how to close it.");
       bodyEl.innerHTML = "You need around <strong>" + Z + "</strong>. That's a <strong>" + gapFmt + "</strong> gap.";
 
       var hasLever = false;

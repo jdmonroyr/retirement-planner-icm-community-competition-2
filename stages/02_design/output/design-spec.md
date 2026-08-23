@@ -40,13 +40,14 @@ Round the money lever to the nearest $25/month and the years lever to the neares
 
 ## 3. Flow — welcome, then one question at a time
 
-Revised from a single-screen form: a bare five-field form reads cold, closer to the "bank calculator" brand-guidelines explicitly rules out. brand-guidelines.md's Elements line already leaves both doors open ("one field at a time *or* a short single-screen form") — this spec takes the paced door. Same five fields, same cap, no new inputs — only the pacing changes.
+Revised from a single-screen form: a bare five-field form reads cold, closer to the "bank calculator" brand-guidelines explicitly rules out. brand-guidelines.md's Elements line already leaves both doors open ("one field at a time *or* a short single-screen form") — this spec takes the paced door. Same five required fields, same cap, only the pacing changes — plus one optional first-name field on the welcome screen (see below), which sits outside the cap by design.
 
 **Screen 0 — Welcome**
 - Headline: "Before we sit down, let's get you a real answer."
 - Line 1 (the hook): "Every client asks me the same thing in our first meeting: am I okay, or are we okay?"
 - Line 2 (why it matters — the retirement stake, not just the math): "That question was never really about the number. It's about whether you get to spend your time the way you want, with the people you want to spend it with."
 - Line 3 (logistics): "Five quick questions, about three minutes, and you'll know where you stand before we ever talk."
+- Optional field: "What's your first name?" — clearly marked optional, doesn't block the button either way. Outside the 5-field cap (see `_shared/brand-guidelines.md` Elements section for the rationale); used only to personalize the result headline and to tell Marcus who filled it out.
 - Button: "Let's find out" (momentum-building — the "Are we okay?" line is saved for the reveal, not spent here)
 
 Line 2 is the one addition worth flagging: research on retirement satisfaction consistently finds the account balance matters less than purpose, connection, and freedom to spend time on what matters ([Vantage Financial](https://www.vantagefinancial.com/blog/2026/04/30/why-retirement-happiness-is-about-purpose-and-connection/); [Psychology Today](https://www.psychologytoday.com/us/blog/sex-life-of-the-american-male/202511/successful-retirement-according-to-psychology)). Marcus wouldn't cite the research, but he'd say the plain version of it — which is what line 2 is. Kept to one sentence so it doesn't tip into "purpose coach" territory, which would break voice as badly as sterile math would.
@@ -67,21 +68,23 @@ No sixth field, and no added screens beyond welcome + 5 + result — pacing chan
 
 ## 4. Result experience
 
-All three states share a shape: **headline verdict → the two numbers (what you're on pace for vs. what you need) → path forward if behind.** Numbers are rounded to the nearest $1,000, no cents, no decimal precision that isn't real.
+Revised layout (v2, matches the whiteboard rebuild): **eyebrow → hero number (the projected total, $X, hand-circled) → caption ("what you're on pace for by age {retirement age}") → headline verdict → the comparison (**$Z** needed, plus **$Y** ahead / gap) → path forward if behind → closer.** $X gets its own hero treatment instead of being repeated in the body copy, since the circled number is the one visual focal point per screen. Numbers are rounded to the nearest $1,000, no cents.
+
+Headline personalization: if the optional first-name field was filled in, prefix the headline with it ("David, you're ahead of where you need to be."); otherwise the generic version runs unchanged. One touchpoint only — not threaded through every line, which would tip into forced-familiarity territory.
 
 **Ahead**
-- Headline: "You're ahead of where you need to be."
-- Body: "At this pace, you're on track for about **$X** by {retirement age} — you need around **$Z**. That's **$Y** ahead. Nice work."
+- Headline: "[{Name}, ]You're ahead of where you need to be."
+- Body: "You need around **$Z** — that's **$Y** ahead. Nice work."
 - Closer: "That's not just enough — that's room to actually enjoy it, not just get by."
 
 **On track**
-- Headline: "You're on track."
-- Body: "At this pace, you're set for about **$X** by {retirement age} — right around the **$Z** you need. Keep doing what you're doing."
+- Headline: "[{Name}, ]You're on track."
+- Body: "That's right around the **$Z** you need. Keep doing what you're doing."
 - Closer: "That's real room to spend that time on what matters, not just get through it."
 
 **Behind**
-- Headline: "You're behind — here's the gap, and here's how to close it."
-- Body: "At this pace, you're on track for about **$X** by {retirement age}. You need around **$Z**. That's a **$gap** gap."
+- Headline: "[{Name}, ]You're behind — here's the gap, and here's how to close it."
+- Body: "You need around **$Z**. That's a **$gap** gap."
 - Path forward (both shown together, not one-or-the-other):
   - "Save about **$A more a month** between now and {retirement age}, and you close it."
   - "Or keep saving what you're saving now, and push retirement to **{retirement age + n}**, and you close it that way instead."
@@ -95,4 +98,4 @@ Every string above was checked against `_shared/voice.md` line by line: plain wo
 
 ## 6. Visual tie-in
 
-Field and result layout defer to `_shared/brand-guidelines.md`'s Visual system section (colors, type, spacing) — not restated here. One addition specific to this spec: the headline verdict line is the single largest, heaviest text on the result screen; the two supporting numbers are secondary; the path-forward lines are equal-weight to each other and always both visible when behind, never behind a toggle.
+Field and result layout defer to `_shared/brand-guidelines.md`'s Visual system section (colors, type, spacing) — not restated here. One addition specific to this spec: on the result screen the hero number ($X) is the single largest, heaviest element — the circled focal point — with the headline verdict as secondary emphasis below it; the path-forward lines are equal-weight to each other and always both visible when behind, never behind a toggle. The minimal signature footer (Marcus's name + one grounding line, per brand-guidelines.md) is persistent across every screen, not just the result screen — it's identity, not a per-screen element.

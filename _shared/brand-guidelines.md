@@ -30,7 +30,7 @@ Backed by two current trends worth naming: distinctive brands are increasingly d
 - Marker Blue (structural — progress dots, links, secondary emphasis): `#2C6E8F`
 - Marker Amber (primary / CTA / "on track"): `#D9660A` — more saturated than v1's terracotta; reads as a marker, not a ceramic glaze
 - Marker Green ("ahead"): `#2E8B57`
-- Marker Coral ("behind," but never alone): `#D14D3E` — still muted relative to true alarm-red, still always paired with the path-forward content in the same view, per the non-negotiable rule below
+- Marker Purple ("behind," but never alone): `#6B4FA0` — real marker packs include purple alongside blue/black/red/green, so this stays inside the literal marker-set logic rather than an arbitrary pick. It also sits on the cool side next to Marker Blue instead of fighting Marker Amber on the warm side — the original Marker Coral read muddy against both. Always paired with the path-forward content in the same view, per the non-negotiable rule below.
 - Neutral grays: warm-charcoal-tinted (e.g. `#8B8880`), never blue-gray — blue-gray is what reads as "bank app"
 
 **Typography** — two roles, used unevenly on purpose:
@@ -47,6 +47,10 @@ Backed by two current trends worth naming: distinctive brands are increasingly d
 - Buttons and cards: flatter, thicker-bordered (2px, ink-colored) — closer to something drawn on a board than a soft drop-shadow SaaS pill. Avoid default `rounded-lg`-everywhere styling.
 - The path-forward content (extra $/month, retire later, work longer) is always visible alongside a "behind" result, not hidden behind a click or a second screen.
 - Generous spacing, mobile-first — a prospect may open this on a phone before the call.
+
+**Identity — a signature, not a brand:** the tool needs enough context that it doesn't feel unmoored, but Marcus is a solo practice ("I run a small financial planning practice"), and the voice mandate is "it should feel like talking to *me*," not a company. So: no invented practice name, no logo mark. Just a minimal footer, present on every screen — his name in the Kalam marker hand (consistent with the eyebrow/hero-number treatment, rotated a degree or two like a real signature) plus one short grounding line in small gray Inter. Nothing clickable, nothing that reads as a brand system of its own.
+
+**Name (optional, outside the 5-field cap):** a first-name field on the welcome screen, clearly marked optional, that does not block the CTA either way. It exists for two reasons the brief's 5 methodology inputs don't cover: it lets Marcus know who's coming to the call, and it lets the result headline personalize ("David, you're ahead of where you need to be." vs. the generic version when left blank). This is the one deliberate exception to the field cap in "Simplicity ceiling" above — kept to a single, skippable field specifically because it doesn't touch the math and costs nothing if left blank.
 
 ## Non-negotiable UX rule
 

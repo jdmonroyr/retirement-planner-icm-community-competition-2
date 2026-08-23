@@ -44,11 +44,11 @@ Must sound like Marcus: honest when the news is good, direct when it isn't, like
 A prospect finishes in under 3 minutes and walks away with a real answer. This is explicitly a design/voice challenge, not a finance challenge.
 
 ## Deliverable
-1. An interactive artifact built in Claude.
+1. An interactive tool, built with Claude.
 2. A 100-word writeup: who it's for, what it does, and one design choice made and why.
 
 ## Delivery & hosting (workspace decision, not from the brief)
-The built artifact is deployed to GitHub Pages, same pattern as the sibling `competition-1` workspace: the final build stage's output is published via a GitHub Actions Pages workflow, and this workspace itself is pushed to a new GitHub repo. This is a delivery decision for this exercise, not a client requirement — kept separate from the brief-derived requirements above.
+The built tool is deployed to GitHub Pages, same pattern as the sibling `competition-1` workspace: the final build stage's output is published via a GitHub Actions Pages workflow, and this workspace itself is pushed to a new GitHub repo. This is a delivery decision for this exercise, not a client requirement — kept separate from the brief-derived requirements above.
 
 ## Judging criteria, in stated order
 1. Does it solve Marcus's actual problem — can a prospect use it before a call and show up better prepared?

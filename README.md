@@ -4,7 +4,7 @@ An interactive retirement-readiness tool for **Marcus**, a Denver financial plan
 
 Prospects fill it out before their first meeting with Marcus, see where they stand against the 25x rule, and — if they're behind — see a real path to closing the gap instead of just a number. Deliverable: the interactive artifact plus a 100-word writeup.
 
-**Live app:** _deployed via GitHub Actions on every push to `main` once the build stage has output — see [.github/workflows/pages.yml](.github/workflows/pages.yml)._
+**Live app:** https://jdmonroyr.github.io/retirement-planner-icm-community-competition-2/ — deployed via GitHub Actions on every push to `main` (see [.github/workflows/pages.yml](.github/workflows/pages.yml)).
 
 ## Start here
 

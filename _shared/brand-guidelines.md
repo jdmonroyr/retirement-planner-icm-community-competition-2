@@ -29,19 +29,19 @@ Backed by two current trends worth naming: distinctive brands are increasingly d
 - Ink (text, headings): `#20241F` — near-black with a warm-charcoal cast, like dry-erase marker black
 - Marker Blue (structural — progress dots, links, secondary emphasis): `#2C6E8F`
 - Marker Amber (primary / CTA / "on track"): `#D9660A` — more saturated than v1's terracotta; reads as a marker, not a ceramic glaze
-- Marker Green ("ahead"): `#2E8B57`
+- Marker Green ("ahead," and doing double duty as the prospect's own input color — see Typography below): `#2E8B57`
 - Marker Purple ("behind," but never alone): `#6B4FA0` — real marker packs include purple alongside blue/black/red/green, so this stays inside the literal marker-set logic rather than an arbitrary pick. It also sits on the cool side next to Marker Blue instead of fighting Marker Amber on the warm side — the original Marker Coral read muddy against both. Always paired with the path-forward content in the same view, per the non-negotiable rule below.
 - Neutral grays: warm-charcoal-tinted (e.g. `#8B8880`), never blue-gray — blue-gray is what reads as "bank app"
 
-**Typography** — two roles, split by *who's talking*, not used unevenly for decoration:
-- **Kalam** (a handwriting face with real marker-like weight, not a thin cursive script) renders what Marcus is writing on the board: the welcome headline, each step's question, the "Are we okay?" eyebrow, and the circled hero number on the result screen. One Kalam element per screen — it's the thing being written *right now*, not a running style.
-- **Inter** renders everything else: the quieter framing line before each question (styled italic — the spoken aside, not the board), all body copy, and — deliberately — anything the user types or reads back as data (inputs, dollar amounts in sentences). Marcus's words get the marker; your answers stay in plain, legible type. Crossing that line (e.g. setting typed input in Kalam) would trade legibility for theme with no payoff, since nobody needs their own typed age to look hand-lettered.
+**Typography** — two writers, two colors, on the same board:
+- **Kalam** (a handwriting face with real marker-like weight, not a thin cursive script) renders everything either party is *writing* — Marcus's side in ink-black (welcome headline, each step's question, the "Are we okay?" eyebrow, the circled hero number) and the prospect's side in Marker Green (what they type into every field, including the optional name). Two people, two marker colors, one board — the color is what keeps it from reading as one undifferentiated wall of handwriting.
+- **Inter** is reserved for what's read silently rather than written: the quieter framing line before each question (styled italic — the spoken aside, not the board), and all other body copy (result sentences, the closer, the footer's grounding line).
 
-This was a deliberate widening from v2's original "only the eyebrow and hero number" rule — that rule under-used the concept everywhere except the very last screen, so the six screens leading up to the reveal read as a generic form with a textured background rather than part of the same whiteboard.
+This is a deliberate widening from two earlier, more conservative rules: v2 originally confined Kalam to just the eyebrow and hero number (under-used the concept everywhere but the last screen); a later pass extended it to Marcus's questions but kept typed input in plain Inter for legibility. On review, the two-color "you're also writing on this board" version reads as more of a system, not less legible in practice — a person can always read their own just-typed digits, known-value data doesn't need the same scrutiny as read-only output.
 
 **The signature moment:** on the result screen, a hand-drawn circle (a simple SVG path, drawn on with a short stroke animation, respecting `prefers-reduced-motion`) closes in around the verdict number — the visual equivalent of Marcus circling the number on the whiteboard for you. This is the one deliberate flourish in the whole system; everything else stays quiet around it.
 
-**Texture:** a faint dot-grid across the background (like whiteboard/graph-paper texture) — low-contrast enough that it never competes with text, just enough to keep "Board" from reading as flat white. The card itself carries a subtle diagonal gloss/sheen gradient, so it reads as a lit whiteboard panel rather than a paper sheet floating in front of one — the board and the wall behind it are the same material, lit differently.
+**Texture:** a faint dot-grid across the background (like whiteboard/graph-paper texture) — low-contrast enough that it never competes with text, just enough to keep "Board" from reading as flat white. Tried a diagonal gloss/sheen gradient on the card itself for a "lit whiteboard panel" effect; on review it looked like a rendering artifact rather than an intentional material cue, so the card stays flat `--card` white. Noted so the next pass doesn't re-try the same thing without knowing it was already tried.
 
 **Elements:**
 - Inputs: large, single-column, one field at a time — never a dense grid of tiny bank-app fields.

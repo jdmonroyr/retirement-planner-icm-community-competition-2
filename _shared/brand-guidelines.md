@@ -33,13 +33,15 @@ Backed by two current trends worth naming: distinctive brands are increasingly d
 - Marker Purple ("behind," but never alone): `#6B4FA0` — real marker packs include purple alongside blue/black/red/green, so this stays inside the literal marker-set logic rather than an arbitrary pick. It also sits on the cool side next to Marker Blue instead of fighting Marker Amber on the warm side — the original Marker Coral read muddy against both. Always paired with the path-forward content in the same view, per the non-negotiable rule below.
 - Neutral grays: warm-charcoal-tinted (e.g. `#8B8880`), never blue-gray — blue-gray is what reads as "bank app"
 
-**Typography** — two roles, used unevenly on purpose:
-- Body & UI: Inter (or the system sans stack) — legible, plain, does all the reading work, carries none of the personality.
-- The marker accent: **Kalam** (a handwriting face with real marker-like weight, not a thin cursive script) — used *only* for the "Are we okay?" eyebrow and the big verdict number on the result screen. One clear emphasis point per screen; if the handwriting face shows up everywhere it stops reading as a marker and starts reading as a font choice.
+**Typography** — two roles, split by *who's talking*, not used unevenly for decoration:
+- **Kalam** (a handwriting face with real marker-like weight, not a thin cursive script) renders what Marcus is writing on the board: the welcome headline, each step's question, the "Are we okay?" eyebrow, and the circled hero number on the result screen. One Kalam element per screen — it's the thing being written *right now*, not a running style.
+- **Inter** renders everything else: the quieter framing line before each question (styled italic — the spoken aside, not the board), all body copy, and — deliberately — anything the user types or reads back as data (inputs, dollar amounts in sentences). Marcus's words get the marker; your answers stay in plain, legible type. Crossing that line (e.g. setting typed input in Kalam) would trade legibility for theme with no payoff, since nobody needs their own typed age to look hand-lettered.
+
+This was a deliberate widening from v2's original "only the eyebrow and hero number" rule — that rule under-used the concept everywhere except the very last screen, so the six screens leading up to the reveal read as a generic form with a textured background rather than part of the same whiteboard.
 
 **The signature moment:** on the result screen, a hand-drawn circle (a simple SVG path, drawn on with a short stroke animation, respecting `prefers-reduced-motion`) closes in around the verdict number — the visual equivalent of Marcus circling the number on the whiteboard for you. This is the one deliberate flourish in the whole system; everything else stays quiet around it.
 
-**Texture:** a faint dot-grid across the background (like whiteboard/graph-paper texture) — low-contrast enough that it never competes with text, just enough to keep "Board" from reading as flat white.
+**Texture:** a faint dot-grid across the background (like whiteboard/graph-paper texture) — low-contrast enough that it never competes with text, just enough to keep "Board" from reading as flat white. The card itself carries a subtle diagonal gloss/sheen gradient, so it reads as a lit whiteboard panel rather than a paper sheet floating in front of one — the board and the wall behind it are the same material, lit differently.
 
 **Elements:**
 - Inputs: large, single-column, one field at a time — never a dense grid of tiny bank-app fields.

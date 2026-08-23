@@ -6,23 +6,26 @@
 <title>Are We Okay?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#2B2521;
-    --paper:#FAF6F0;
-    --amber:#C1622D;
-    --amber-dark:#a85223;
-    --sage:#5C7A5C;
-    --clay:#B0523A;
-    --gray:#8A8078;
-    --card:#ffffff;
-    --border:#E7DFD3;
+    --board:#F5F5F2;
+    --ink:#20241F;
+    --marker-blue:#2C6E8F;
+    --marker-amber:#D9660A;
+    --marker-amber-dark:#B8530A;
+    --marker-green:#2E8B57;
+    --marker-coral:#D14D3E;
+    --gray:#8B8880;
+    --card:#FFFFFF;
+    --border:rgba(32,36,31,0.16);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--paper);
+    background-color:var(--board);
+    background-image:radial-gradient(circle, rgba(32,36,31,0.12) 1.2px, transparent 1.6px);
+    background-size:24px 24px;
     color:var(--ink);
     font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
     min-height:100vh;
@@ -32,16 +35,13 @@
     padding:24px;
     line-height:1.55;
   }
-  .app{
-    width:100%;
-    max-width:560px;
-  }
+  .app{width:100%; max-width:560px;}
   .card{
     background:var(--card);
-    border:1px solid var(--border);
-    border-radius:20px;
+    border:2px solid var(--ink);
+    border-radius:14px;
     padding:40px 32px;
-    box-shadow:0 1px 2px rgba(43,37,33,0.04), 0 12px 32px rgba(43,37,33,0.06);
+    box-shadow:6px 6px 0 rgba(32,36,31,0.10);
   }
   .screen{display:none;}
   .screen.active{display:block; animation:fade .25s ease;}
@@ -52,145 +52,164 @@
   }
 
   h1,h2{
-    font-family:'Lora',Georgia,serif;
-    font-weight:600;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
     margin:0 0 16px;
     color:var(--ink);
+    text-wrap:balance;
   }
-  h1{font-size:1.6rem; line-height:1.3; text-wrap:balance;}
-  h2{text-wrap:balance;}
+  h1{font-size:1.6rem; line-height:1.3;}
   p{margin:0 0 16px; color:var(--ink);}
-  .lede{color:#4a423c;}
+  .lede{color:#4a4842;}
 
   .btn{
     appearance:none;
-    border:none;
-    border-radius:12px;
-    padding:14px 22px;
+    border:2px solid var(--ink);
+    border-radius:10px;
+    padding:13px 22px;
     font-family:'Inter',sans-serif;
     font-weight:600;
     font-size:1rem;
     cursor:pointer;
-    transition:transform .08s ease, background .15s ease, opacity .15s ease;
+    background:var(--card);
+    color:var(--ink);
+    transition:transform .08s ease, box-shadow .08s ease, background .15s ease, opacity .15s ease;
   }
-  .btn:active{transform:scale(0.98);}
   .btn-primary{
-    background:var(--amber);
+    background:var(--marker-amber);
     color:#fff;
+    border-color:var(--ink);
     width:100%;
+    box-shadow:3px 3px 0 rgba(32,36,31,0.20);
   }
-  .btn-primary:hover{background:var(--amber-dark);}
-  .btn-primary:disabled{opacity:.4; cursor:not-allowed;}
+  .btn-primary:hover{background:var(--marker-amber-dark);}
+  .btn-primary:active{transform:translate(2px,2px); box-shadow:1px 1px 0 rgba(32,36,31,0.20);}
+  .btn-primary:disabled{opacity:.4; cursor:not-allowed; box-shadow:none; transform:none;}
   .btn-text{
     background:none;
+    border-color:transparent;
     color:var(--gray);
-    padding:14px 4px;
+    padding:13px 4px;
     font-weight:500;
   }
   .btn-text:hover{color:var(--ink);}
+  .btn:focus-visible{outline:2px solid var(--marker-blue); outline-offset:2px;}
+  a:focus-visible{outline:2px solid var(--marker-blue); outline-offset:2px;}
 
   .row{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:28px;}
   .row .btn-primary{width:auto; flex:1;}
 
-  .step-meta{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:22px;
-  }
+  .step-meta{display:flex; align-items:center; gap:10px; margin-bottom:22px;}
   .dots{display:flex; gap:6px;}
   .dot{width:7px; height:7px; border-radius:50%; background:var(--border);}
-  .dot.done{background:var(--amber);}
+  .dot.done{background:var(--marker-blue);}
   .step-label{font-size:.8rem; color:var(--gray); font-weight:500; letter-spacing:.02em;}
 
-  .frame{
-    font-size:.98rem;
-    color:#5a514a;
-    margin-bottom:6px;
-  }
-  .question{font-size:1.3rem; margin-bottom:20px;}
+  .frame{font-size:.98rem; color:#5a574f; margin-bottom:6px;}
+  .question{font-size:1.3rem; margin-bottom:20px; font-weight:600;}
 
-  .field{
-    position:relative;
-  }
+  .field{position:relative;}
   .field.dollar input{padding-left:30px;}
   .field .prefix{
-    position:absolute;
-    left:16px; top:50%;
-    transform:translateY(-50%);
-    color:var(--gray);
-    font-size:1.15rem;
-    pointer-events:none;
+    position:absolute; left:16px; top:50%; transform:translateY(-50%);
+    color:var(--gray); font-size:1.15rem; pointer-events:none;
   }
   input[type="number"]{
     width:100%;
-    font-family:'Lora',Georgia,serif;
-    font-size:1.5rem;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:1.35rem;
     padding:14px 16px;
-    border:1.5px solid var(--border);
-    border-radius:12px;
-    background:var(--paper);
+    border:2px solid var(--border);
+    border-radius:10px;
+    background:var(--board);
     color:var(--ink);
     outline:none;
+    font-variant-numeric:tabular-nums;
   }
-  input[type="number"]:focus{border-color:var(--amber); box-shadow:0 0 0 3px rgba(193,98,45,0.18);}
-  .btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
-  a:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  input[type="number"]:focus{border-color:var(--marker-amber); box-shadow:0 0 0 3px rgba(217,102,10,0.16);}
+  input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
   input[type=number]{ -moz-appearance:textfield; }
 
   .eyebrow{
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    font-size:.78rem;
-    font-weight:600;
-    color:var(--gray);
-    margin-bottom:10px;
+    font-family:'Kalam','Segoe Print','Bradley Hand',cursive;
+    font-weight:700;
+    font-size:1.15rem;
+    color:var(--marker-blue);
+    margin-bottom:6px;
+    transform:rotate(-1.5deg);
+    display:inline-block;
   }
-  .result-headline{font-size:1.7rem; margin-bottom:14px;}
-  .result-headline.ahead{color:var(--sage);}
-  .result-headline.on-track{color:var(--amber-dark);}
-  .result-headline.behind{color:var(--clay);}
 
-  .paths{
-    margin:20px 0;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+  .hero-wrap{position:relative; display:inline-block; margin:10px 0 2px;}
+  .hero-number{
+    position:relative;
+    z-index:1;
+    font-family:'Kalam','Segoe Print','Bradley Hand',cursive;
+    font-weight:700;
+    font-size:2.5rem;
+    line-height:1;
+    color:var(--ink);
+    padding:8px 18px;
+    display:inline-block;
   }
+  .hero-wrap svg{
+    position:absolute;
+    inset:-16px -10px;
+    width:calc(100% + 20px);
+    height:calc(100% + 32px);
+    pointer-events:none;
+  }
+  .doodle-circle path{
+    fill:none;
+    stroke:currentColor;
+    stroke-width:6;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:1000;
+    stroke-dashoffset:1000;
+    transition:stroke-dashoffset .9s ease .1s;
+  }
+  .doodle-circle.drawn path{stroke-dashoffset:0;}
+  @media (prefers-reduced-motion: reduce){
+    .doodle-circle path{transition:none; stroke-dashoffset:0;}
+  }
+  .hero-caption{font-size:.85rem; color:var(--gray); margin:6px 0 20px;}
+
+  .result-headline{font-size:1.5rem; margin-bottom:14px;}
+  .result-headline.ahead{color:var(--marker-green);}
+  .result-headline.on-track{color:var(--marker-amber-dark);}
+  .result-headline.behind{color:var(--marker-coral);}
+
+  .paths{margin:20px 0; display:flex; flex-direction:column; gap:10px;}
   .path{
-    background:var(--paper);
-    border:1.5px solid var(--border);
-    border-radius:12px;
+    background:var(--board);
+    border:2px solid var(--border);
+    border-radius:10px;
     padding:14px 16px;
     font-size:.98rem;
   }
   .closer{
     font-style:italic;
-    color:#5a514a;
+    color:#5a574f;
     margin-top:18px;
     padding-top:18px;
-    border-top:1px solid var(--border);
+    border-top:2px solid var(--border);
   }
   strong{font-weight:700;}
 
   .start-over{
-    display:block;
-    text-align:center;
-    margin-top:18px;
-    font-size:.9rem;
-    color:var(--gray);
-    text-decoration:none;
-    cursor:pointer;
+    display:block; text-align:center; margin-top:18px;
+    font-size:.9rem; color:var(--gray); text-decoration:none; cursor:pointer;
   }
   .start-over:hover{color:var(--ink);}
 
   @media (max-width:420px){
-    .card{padding:28px 22px; border-radius:16px;}
+    .card{padding:28px 22px; border-radius:12px;}
     h1{font-size:1.4rem;}
     .question{font-size:1.15rem;}
-    .result-headline{font-size:1.4rem;}
+    .result-headline{font-size:1.3rem;}
+    .hero-number{font-size:1.9rem;}
   }
 </style>
 </head>
@@ -209,10 +228,7 @@
 
     <!-- Screen 1: Age -->
     <section class="screen" id="screen-1">
-      <div class="step-meta">
-        <div class="dots" data-dots></div>
-        <span class="step-label">1 of 5</span>
-      </div>
+      <div class="step-meta"><div class="dots" data-dots></div><span class="step-label">1 of 5</span></div>
       <div class="frame">First, the basics.</div>
       <div class="question">How old are you?</div>
       <div class="field">
@@ -226,10 +242,7 @@
 
     <!-- Screen 2: Income -->
     <section class="screen" id="screen-2">
-      <div class="step-meta">
-        <div class="dots" data-dots></div>
-        <span class="step-label">2 of 5</span>
-      </div>
+      <div class="step-meta"><div class="dots" data-dots></div><span class="step-label">2 of 5</span></div>
       <div class="frame">This one's just between us — no judgment, just math.</div>
       <div class="question">What do you make a year, before taxes?</div>
       <div class="field dollar">
@@ -244,10 +257,7 @@
 
     <!-- Screen 3: Current savings -->
     <section class="screen" id="screen-3">
-      <div class="step-meta">
-        <div class="dots" data-dots></div>
-        <span class="step-label">3 of 5</span>
-      </div>
+      <div class="step-meta"><div class="dots" data-dots></div><span class="step-label">3 of 5</span></div>
       <div class="frame">Now let's see what you've already got working for you.</div>
       <div class="question">What have you got saved for retirement so far?</div>
       <div class="field dollar">
@@ -262,10 +272,7 @@
 
     <!-- Screen 4: Monthly savings -->
     <section class="screen" id="screen-4">
-      <div class="step-meta">
-        <div class="dots" data-dots></div>
-        <span class="step-label">4 of 5</span>
-      </div>
+      <div class="step-meta"><div class="dots" data-dots></div><span class="step-label">4 of 5</span></div>
       <div class="frame">And what you're currently putting away.</div>
       <div class="question">How much are you putting toward retirement each month?</div>
       <div class="field dollar">
@@ -280,10 +287,7 @@
 
     <!-- Screen 5: Target retirement age -->
     <section class="screen" id="screen-5">
-      <div class="step-meta">
-        <div class="dots" data-dots></div>
-        <span class="step-label">5 of 5</span>
-      </div>
+      <div class="step-meta"><div class="dots" data-dots></div><span class="step-label">5 of 5</span></div>
       <div class="frame">Last one — the finish line. This is the age you get to spend on your own terms — more time with the people you actually want to be around.</div>
       <div class="question">What age do you want to retire?</div>
       <div class="field">
@@ -298,6 +302,15 @@
     <!-- Screen 6: Result -->
     <section class="screen" id="screen-result">
       <div class="eyebrow">Are we okay?</div>
+      <div>
+        <div class="hero-wrap">
+          <span class="hero-number" id="hero-number"></span>
+          <svg class="doodle-circle" id="doodle-circle" viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M 25 100 C 12 45 110 8 200 10 C 300 12 385 40 378 92 C 372 138 260 158 150 152 C 60 148 10 118 20 96 C 22 90 24 86 30 84" />
+          </svg>
+        </div>
+      </div>
+      <p class="hero-caption" id="hero-caption"></p>
       <h2 class="result-headline" id="result-headline"></h2>
       <p id="result-body"></p>
       <div class="paths" id="result-paths"></div>
@@ -313,17 +326,14 @@
   "use strict";
 
   var screens = ["screen-welcome","screen-1","screen-2","screen-3","screen-4","screen-5","screen-result"];
-  var current = "screen-welcome";
 
   function show(id){
     screens.forEach(function(s){
       document.getElementById(s).classList.toggle("active", s === id);
     });
-    current = id;
     window.scrollTo(0,0);
   }
 
-  // step dots (1-5)
   document.querySelectorAll("[data-dots]").forEach(function(container, idx){
     for (var i = 1; i <= 5; i++){
       var d = document.createElement("span");
@@ -342,9 +352,7 @@
     input.addEventListener("input", function(){
       nextBtn.disabled = !validate(input.value);
     });
-
     backBtn.addEventListener("click", function(){ show(backTarget); });
-
     nextBtn.addEventListener("click", function(){
       values[key] = parseFloat(input.value);
       var nextScreen = stepNum < 5 ? "screen-" + (stepNum + 1) : null;
@@ -355,7 +363,6 @@
         show("screen-result");
       }
     });
-
     input.addEventListener("keydown", function(e){
       if (e.key === "Enter" && !nextBtn.disabled) nextBtn.click();
     });
@@ -385,8 +392,8 @@
     ["input-age","input-income","input-savings","input-monthly","input-target-age"].forEach(function(id){
       document.getElementById(id).value = "";
     });
-    document.querySelectorAll(".btn-primary[disabled]").length; // no-op guard
     [1,2,3,4,5].forEach(function(n){ document.getElementById("next-" + n).disabled = true; });
+    document.getElementById("doodle-circle").classList.remove("drawn");
     show("screen-welcome");
   });
 
@@ -399,15 +406,12 @@
     return principal * growth + annualContribution * annuityFactor;
   }
 
-  function fmt(v){
-    return "$" + Math.round(v).toLocaleString("en-US");
-  }
+  function fmt(v){ return "$" + Math.round(v).toLocaleString("en-US"); }
   function roundToThousand(v){ return Math.round(v / 1000) * 1000; }
   function roundToTwentyFive(v){ return Math.round(v / 25) * 25; }
 
   function compute(v){
     var annualSavings = v.monthly * 12;
-    // what you don't save, you spend — the stand-in for "annual expenses"
     var annualExpenses = Math.max(v.income - annualSavings, 0);
     var targetNestEgg = 25 * annualExpenses;
     var yearsToRetire = Math.max(v.targetAge - v.age, 0);
@@ -446,33 +450,51 @@
     };
   }
 
+  function drawCircle(color){
+    var circle = document.getElementById("doodle-circle");
+    circle.classList.remove("drawn");
+    circle.style.color = color;
+    void circle.offsetWidth;
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ circle.classList.add("drawn"); });
+    });
+  }
+
   function computeAndRender(){
     var r = compute(values);
     var headlineEl = document.getElementById("result-headline");
     var bodyEl = document.getElementById("result-body");
     var pathsEl = document.getElementById("result-paths");
     var closerEl = document.getElementById("result-closer");
+    var heroEl = document.getElementById("hero-number");
+    var captionEl = document.getElementById("hero-caption");
     var targetAge = values.targetAge;
 
     var X = fmt(roundToThousand(r.projectedNestEgg));
     var Z = fmt(roundToThousand(r.targetNestEgg));
 
+    heroEl.textContent = X;
+    captionEl.textContent = "what you're on pace for by age " + targetAge;
+
     pathsEl.innerHTML = "";
     headlineEl.className = "result-headline " + r.status;
+
+    var accentVar = r.status === "ahead" ? "var(--marker-green)" : r.status === "on-track" ? "var(--marker-amber-dark)" : "var(--marker-coral)";
+    drawCircle(accentVar);
 
     if (r.status === "ahead"){
       var Y = fmt(roundToThousand(-r.gap));
       headlineEl.textContent = "You're ahead of where you need to be.";
-      bodyEl.innerHTML = "At this pace, you're on track for about <strong>" + X + "</strong> by " + targetAge + " — you need around <strong>" + Z + "</strong>. That's <strong>" + Y + "</strong> ahead. Nice work.";
+      bodyEl.innerHTML = "You need around <strong>" + Z + "</strong> — that's <strong>" + Y + "</strong> ahead. Nice work.";
       closerEl.textContent = "That's not just enough — that's room to actually enjoy it, not just get by.";
     } else if (r.status === "on-track"){
       headlineEl.textContent = "You're on track.";
-      bodyEl.innerHTML = "At this pace, you're set for about <strong>" + X + "</strong> by " + targetAge + " — right around the <strong>" + Z + "</strong> you need. Keep doing what you're doing.";
+      bodyEl.innerHTML = "That's right around the <strong>" + Z + "</strong> you need. Keep doing what you're doing.";
       closerEl.textContent = "That's real room to spend that time on what matters, not just get through it.";
     } else {
       var gapFmt = fmt(roundToThousand(r.gap));
       headlineEl.textContent = "You're behind — here's the gap, and here's how to close it.";
-      bodyEl.innerHTML = "At this pace, you're on track for about <strong>" + X + "</strong> by " + targetAge + ". You need around <strong>" + Z + "</strong>. That's a <strong>" + gapFmt + "</strong> gap.";
+      bodyEl.innerHTML = "You need around <strong>" + Z + "</strong>. That's a <strong>" + gapFmt + "</strong> gap.";
 
       var hasLever = false;
       if (r.extraMonthly){

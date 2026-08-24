@@ -92,6 +92,8 @@ Headline personalization: if the optional first-name field was filled in, prefix
 
 The closer does double duty in every state: it reconnects the number to what it's actually for (not just "give a path, not a verdict" for the behind case), and it hands the prospect back to Marcus's actual meeting, which is the whole point of the tool.
 
+**Post-reveal action:** below the closer, an "Email these results to Marcus" button (secondary, Marker Blue) opens a `mailto:` link pre-filled with a plain-text summary — status, the pace number, the target, and (if behind) the gap and both levers — signed with the optional name if given. This is a real, functional action (opens the user's mail client), not a fake booking flow, which matters for the "would Marcus actually send this?" test. The address is a placeholder (`marcus@example.com`) to swap for Marcus's real inbox on deployment — flagged in the code comment next to it. "Start over" stays below it as the lower-emphasis fallback action.
+
 ## 5. Voice pass
 
 Every string above was checked against `_shared/voice.md` line by line: plain words, no jargon ("nest egg" and "gap" instead of "corpus" or "shortfall"), second person, contractions where a person would use them, direct about the number before softening into the path. The button copy borrowing Marcus's own "are we okay?" line is the clearest single voice anchor in the whole tool.

@@ -24,8 +24,6 @@
   html,body{margin:0;padding:0;}
   body{
     background-color:var(--board);
-    background-image:radial-gradient(circle, rgba(32,36,31,0.12) 1.2px, transparent 1.6px);
-    background-size:24px 24px;
     color:var(--ink);
     font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
     min-height:100vh;
@@ -35,7 +33,28 @@
     padding:24px;
     line-height:1.55;
   }
-  .app{width:100%; max-width:560px;}
+  .app{width:100%; max-width:560px; position:relative; z-index:1;}
+
+  .bg-doodle{
+    position:fixed;
+    color:var(--ink);
+    opacity:0.11;
+    pointer-events:none;
+    z-index:0;
+  }
+  .bg-doodle path, .bg-doodle circle, .bg-doodle line{
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2.4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .bg-doodle.sun{top:7%; left:5%; width:64px; transform:rotate(-3deg);}
+  .bg-doodle.chart{top:10%; right:6%; width:60px; transform:rotate(2deg);}
+  .bg-doodle.clock{bottom:8%; left:7%; width:52px; transform:rotate(4deg);}
+  @media (max-width:699px){
+    .bg-doodle{display:none;}
+  }
   .card{
     position:relative;
     background:var(--card);
@@ -90,6 +109,19 @@
   .btn-primary:hover{background:var(--marker-amber-dark);}
   .btn-primary:active{transform:translate(2px,2px); box-shadow:1px 1px 0 rgba(32,36,31,0.20);}
   .btn-primary:disabled{opacity:.4; cursor:not-allowed; box-shadow:none; transform:none;}
+  .btn-secondary{
+    background:var(--marker-blue);
+    color:#fff;
+    border-color:var(--ink);
+    width:100%;
+    display:block;
+    text-align:center;
+    text-decoration:none;
+    box-shadow:3px 3px 0 rgba(32,36,31,0.20);
+    margin-top:26px;
+  }
+  .btn-secondary:hover{background:#235a75;}
+  .btn-secondary:active{transform:translate(2px,2px); box-shadow:1px 1px 0 rgba(32,36,31,0.20);}
   .btn-text{
     background:none;
     border-color:transparent;
@@ -269,6 +301,24 @@
 </style>
 </head>
 <body>
+<svg class="bg-doodle sun" viewBox="0 0 60 60" aria-hidden="true">
+  <path d="M8 42 C 18 40 24 41 30 40 C 36 41 44 40 52 42" />
+  <path d="M17 40 C 15 25 21 14 30 14 C 39 14 45 26 43 40" />
+  <line x1="20" y1="9" x2="18" y2="3" />
+  <line x1="30" y1="7" x2="30" y2="1" />
+  <line x1="40" y1="9" x2="42" y2="3" />
+</svg>
+<svg class="bg-doodle chart" viewBox="0 0 60 60" aria-hidden="true">
+  <path d="M6 48 L18 33 L27 40 L46 13" />
+  <path d="M46 13 L38 15" />
+  <path d="M46 13 L43 21" />
+</svg>
+<svg class="bg-doodle clock" viewBox="0 0 60 60" aria-hidden="true">
+  <circle cx="30" cy="30" r="19" />
+  <line x1="30" y1="30" x2="30" y2="17" />
+  <line x1="30" y1="30" x2="39" y2="35" />
+  <line x1="30" y1="9" x2="30" y2="12" />
+</svg>
 <div class="app">
   <div class="card">
 
@@ -374,6 +424,7 @@
       <p id="result-body"></p>
       <div class="paths" id="result-paths"></div>
       <p class="closer" id="result-closer"></p>
+      <a class="btn btn-secondary" id="email-results" href="#">Email these results to Marcus</a>
       <a class="start-over" id="start-over">Start over</a>
     </section>
 
@@ -462,6 +513,7 @@
     });
     [1,2,3,4,5].forEach(function(n){ document.getElementById("next-" + n).disabled = true; });
     document.getElementById("doodle-circle").classList.remove("drawn");
+    document.getElementById("email-results").href = "#";
     show("screen-welcome");
   });
 
@@ -591,6 +643,33 @@
 
       closerEl.textContent = "This isn't only a math gap — it's the difference between retiring on your terms and stretching to make it work. Neither path above is a verdict; that's what our first call is for: figuring out which one fits the life you're picturing.";
     }
+
+    document.getElementById("email-results").href = buildMailto(r, X, Z, targetAge);
+  }
+
+  // Placeholder address -- swap for Marcus's real inbox on deployment.
+  var MARCUS_EMAIL = "marcus@example.com";
+
+  function buildMailto(r, X, Z, targetAge){
+    var statusLabel = r.status === "ahead" ? "Ahead" : r.status === "on-track" ? "On track" : "Behind";
+    var lines = [
+      "Hi Marcus,",
+      "",
+      "I just ran the \"Are we okay?\" tool. Here's where I landed:",
+      "",
+      "Status: " + statusLabel,
+      "On pace for: " + X + " by age " + targetAge,
+      "Target needed: " + Z
+    ];
+    if (r.status === "behind"){
+      lines.push("Gap: " + fmt(roundToThousand(r.gap)));
+      if (r.extraMonthly) lines.push("Path A: save " + fmt(r.extraMonthly) + " more a month");
+      if (r.extraYears) lines.push("Path B: retire at " + (targetAge + r.extraYears) + " instead");
+    }
+    lines.push("", "Looking forward to talking it through.");
+    if (values.name) lines.push(values.name);
+
+    return "mailto:" + MARCUS_EMAIL + "?subject=" + encodeURIComponent("My retirement check-in results") + "&body=" + encodeURIComponent(lines.join("\n"));
   }
 
 })();

@@ -40,14 +40,14 @@ Round the money lever to the nearest $25/month and the years lever to the neares
 
 ## 3. Flow — welcome, then one question at a time
 
-Revised from a single-screen form: a bare five-field form reads cold, closer to the "bank calculator" brand-guidelines explicitly rules out. brand-guidelines.md's Elements line already leaves both doors open ("one field at a time *or* a short single-screen form") — this spec takes the paced door. Same five required fields, same cap, only the pacing changes — plus one optional first-name field on the welcome screen (see below), which sits outside the cap by design.
+Revised from a single-screen form: a bare five-field form reads cold, closer to the "bank calculator" brand-guidelines explicitly rules out. brand-guidelines.md's Elements line already leaves both doors open ("one field at a time *or* a short single-screen form") — this spec takes the paced door. Same five required fields, same cap, only the pacing changes — plus one required full-name field on the welcome screen (see below), which sits outside the cap by design.
 
 **Screen 0 — Welcome**
 - Headline: "Before we sit down, let's get you a real answer."
 - Line 1 (the hook): "Every client asks me the same thing in our first meeting: am I okay, or are we okay?"
 - Line 2 (why it matters — the retirement stake, not just the math): "That question was never really about the number. It's about whether you get to spend your time the way you want, with the people you want to spend it with."
 - Line 3 (logistics): "Five quick questions, about three minutes, and you'll know where you stand before we ever talk."
-- Optional field: "What's your first name?" — clearly marked optional, doesn't block the button either way. Outside the 5-field cap (see `_shared/brand-guidelines.md` Elements section for the rationale); used only to personalize the result headline and to tell Marcus who filled it out.
+- Required field: "What's your full name?" — gates the button (disabled until filled). Outside the 5-field cap (see `_shared/brand-guidelines.md` Elements section for the rationale); the full name signs the "email these results to Marcus" action, the first name (split on space) personalizes the result headline.
 - Button: "Let's find out" (momentum-building — the "Are we okay?" line is saved for the reveal, not spent here)
 
 Line 2 is the one addition worth flagging: research on retirement satisfaction consistently finds the account balance matters less than purpose, connection, and freedom to spend time on what matters ([Vantage Financial](https://www.vantagefinancial.com/blog/2026/04/30/why-retirement-happiness-is-about-purpose-and-connection/); [Psychology Today](https://www.psychologytoday.com/us/blog/sex-life-of-the-american-male/202511/successful-retirement-according-to-psychology)). Marcus wouldn't cite the research, but he'd say the plain version of it — which is what line 2 is. Kept to one sentence so it doesn't tip into "purpose coach" territory, which would break voice as badly as sterile math would.
@@ -70,7 +70,7 @@ No sixth field, and no added screens beyond welcome + 5 + result — pacing chan
 
 Revised layout (v2, matches the whiteboard rebuild): **eyebrow → hero number (the projected total, $X, hand-circled) → caption ("what you're on pace for by age {retirement age}") → headline verdict → the comparison (**$Z** needed, plus **$Y** ahead / gap) → path forward if behind → closer.** $X gets its own hero treatment instead of being repeated in the body copy, since the circled number is the one visual focal point per screen. Numbers are rounded to the nearest $1,000, no cents.
 
-Headline personalization: if the optional first-name field was filled in, prefix the headline with it ("David, you're ahead of where you need to be."); otherwise the generic version runs unchanged. One touchpoint only — not threaded through every line, which would tip into forced-familiarity territory.
+Headline personalization: prefix the headline with the first token of the (required) name field ("David, you're ahead of where you need to be."). One touchpoint only — not threaded through every line, which would tip into forced-familiarity territory.
 
 **Ahead**
 - Headline: "[{Name}, ]You're ahead of where you need to be."
@@ -92,7 +92,7 @@ Headline personalization: if the optional first-name field was filled in, prefix
 
 The closer does double duty in every state: it reconnects the number to what it's actually for (not just "give a path, not a verdict" for the behind case), and it hands the prospect back to Marcus's actual meeting, which is the whole point of the tool.
 
-**Post-reveal action:** below the closer, an "Email these results to Marcus" button (secondary, Marker Blue) opens a `mailto:` link pre-filled with a plain-text summary — status, the pace number, the target, and (if behind) the gap and both levers — signed with the optional name if given. This is a real, functional action (opens the user's mail client), not a fake booking flow, which matters for the "would Marcus actually send this?" test. The address is a placeholder (`marcus@example.com`) to swap for Marcus's real inbox on deployment — flagged in the code comment next to it. "Start over" stays below it as the lower-emphasis fallback action.
+**Post-reveal action:** below the closer, an "Email these results to Marcus" button (secondary, Marker Blue) opens a `mailto:` link pre-filled with a plain-text summary — status, the pace number, the target, and (if behind) the gap and both levers — signed with the (required) full name. This is a real, functional action (opens the user's mail client), not a fake booking flow, which matters for the "would Marcus actually send this?" test. The address is a placeholder (`marcus@example.com`) to swap for Marcus's real inbox on deployment — flagged in the code comment next to it. "Start over" stays below it as the lower-emphasis fallback action.
 
 ## 5. Voice pass
 

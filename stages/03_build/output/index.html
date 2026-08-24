@@ -35,23 +35,39 @@
   }
   .app{width:100%; max-width:560px; position:relative; z-index:1;}
 
-  .bg-note{
+  .bg-note, .bg-note-wrap{
     position:fixed;
     font-family:'Kalam','Segoe Print','Bradley Hand',cursive;
     font-weight:700;
     color:var(--ink);
     opacity:0.16;
-    line-height:1.35;
-    max-width:200px;
+    line-height:1.3;
     pointer-events:none;
     z-index:0;
   }
-  .bg-note.n1{top:9%; left:4%; font-size:1.2rem; transform:rotate(-3deg);}
-  .bg-note.n2{top:11%; right:4%; font-size:1.05rem; text-align:right; transform:rotate(2deg);}
-  .bg-note.n3{bottom:11%; left:4%; font-size:1.1rem; transform:rotate(2.5deg);}
-  .bg-note.n4{bottom:9%; right:4%; font-size:1.15rem; text-align:right; transform:rotate(-2deg);}
-  @media (max-width:959px){
-    .bg-note{display:none;}
+  .bg-note{max-width:190px;}
+  .bg-note-wrap{max-width:210px;}
+  .bg-note-wrap .bg-note-text{position:relative; z-index:1; display:inline-block; padding:6px 12px;}
+  .bg-note-circle, .bg-note-arrow{
+    position:absolute;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2.2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .bg-note-circle{inset:-10px -14px; width:calc(100% + 28px); height:calc(100% + 20px);}
+  .bg-note-arrow{width:50px; height:50px; top:96%; left:55%;}
+
+  .bg-note-wrap.n1{top:8%; left:4%; font-size:1.15rem; transform:rotate(-5deg);}
+  .bg-note-wrap.n2{top:10%; right:4%; font-size:1rem; text-align:right; transform:rotate(4deg);}
+  .bg-note.n3{bottom:17%; left:5%; font-size:1.05rem; transform:rotate(-6deg);}
+  .bg-note.n4{bottom:7%; right:5%; font-size:2.2rem; max-width:210px; line-height:1.15; text-align:right; transform:rotate(3deg);}
+  .bg-note.n5{top:44%; left:2.5%; font-size:.9rem; max-width:130px; transform:rotate(-8deg);}
+  .bg-note.n6{top:40%; right:3%; font-size:.95rem; max-width:150px; text-align:right; transform:rotate(5deg);}
+
+  @media (max-width:1199px){
+    .bg-note, .bg-note-wrap{display:none;}
   }
   .card{
     position:relative;
@@ -151,25 +167,26 @@
   }
 
   .field{position:relative;}
-  .field.dollar input{padding-left:30px;}
+  .field.dollar input{padding-left:24px;}
   .field .prefix{
-    position:absolute; left:16px; top:50%; transform:translateY(-50%);
-    color:var(--gray); font-size:1.15rem; pointer-events:none;
+    position:absolute; left:0; bottom:11px;
+    color:var(--gray); font-size:1.25rem; pointer-events:none;
   }
   input[type="number"]{
     width:100%;
     font-family:'Kalam','Segoe Print','Bradley Hand',cursive;
     font-weight:700;
     font-size:1.6rem;
-    padding:13px 16px;
-    border:2px solid var(--border);
-    border-radius:10px;
-    background:var(--board);
+    padding:6px 2px 9px;
+    border:none;
+    border-bottom:3px solid var(--ink);
+    border-radius:0;
+    background:transparent;
     color:var(--marker-green);
     outline:none;
   }
-  input[type="number"]::placeholder{color:#b9c9bd; opacity:1;}
-  input[type="number"]:focus{border-color:var(--marker-amber); box-shadow:0 0 0 3px rgba(217,102,10,0.16);}
+  input[type="number"]::placeholder{color:#c7cec9; opacity:1;}
+  input[type="number"]:focus{border-bottom-color:var(--marker-amber);}
   input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
   input[type=number]{ -moz-appearance:textfield; }
 
@@ -257,16 +274,17 @@
     width:100%;
     font-family:'Kalam','Segoe Print','Bradley Hand',cursive;
     font-weight:700;
-    font-size:1.25rem;
-    padding:10px 14px;
-    border:2px solid var(--border);
-    border-radius:10px;
-    background:var(--board);
+    font-size:1.3rem;
+    padding:6px 2px 9px;
+    border:none;
+    border-bottom:3px solid var(--ink);
+    border-radius:0;
+    background:transparent;
     color:var(--marker-green);
     outline:none;
   }
-  input[type="text"]::placeholder{color:#b9c9bd; opacity:1;}
-  input[type="text"]:focus{border-color:var(--marker-amber); box-shadow:0 0 0 3px rgba(217,102,10,0.16);}
+  input[type="text"]::placeholder{color:#c7cec9; opacity:1;}
+  input[type="text"]:focus{border-bottom-color:var(--marker-amber);}
 
   .site-footer{
     text-align:center;
@@ -299,10 +317,24 @@
 </style>
 </head>
 <body>
-<div class="bg-note n1" aria-hidden="true">are we okay?</div>
-<div class="bg-note n2" aria-hidden="true">give them a path, not a verdict</div>
+<div class="bg-note-wrap n1" aria-hidden="true">
+  <span class="bg-note-text">are we okay?</span>
+  <svg class="bg-note-circle" viewBox="0 0 220 90" preserveAspectRatio="none">
+    <path d="M10 45 C 6 18 40 4 90 5 C 150 6 205 15 210 45 C 214 72 160 86 100 85 C 45 84 8 70 12 48" />
+  </svg>
+</div>
+<div class="bg-note-wrap n2" aria-hidden="true">
+  <span class="bg-note-text">give them a path,<br>not a verdict</span>
+  <svg class="bg-note-arrow" viewBox="0 0 60 60">
+    <path d="M50 6 C 32 12 16 26 9 46" />
+    <path d="M9 46 L15 35" />
+    <path d="M9 46 L20 44" />
+  </svg>
+</div>
 <div class="bg-note n3" aria-hidden="true">honest, not perfect</div>
 <div class="bg-note n4" aria-hidden="true">the 25x rule</div>
+<div class="bg-note n5" aria-hidden="true">60 times a year</div>
+<div class="bg-note n6" aria-hidden="true">still on the whiteboard</div>
 <div class="app">
   <div class="card">
 
@@ -313,10 +345,10 @@
       <p class="lede">That question was never really about the number. It's about whether you get to spend your time the way you want, with the people you want to spend it with.</p>
       <p class="lede">Five quick questions, about three minutes, and you'll know where you stand before we ever talk.</p>
       <div class="name-field">
-        <label for="input-name">What's your first name? (optional)</label>
-        <input type="text" id="input-name" maxlength="30" placeholder="David" autocomplete="given-name">
+        <label for="input-name">What's your full name?</label>
+        <input type="text" id="input-name" maxlength="60" placeholder="David Chen" autocomplete="name">
       </div>
-      <button class="btn btn-primary" id="btn-start">Let's find out</button>
+      <button class="btn btn-primary" id="btn-start" disabled>Let's find out</button>
     </section>
 
     <!-- Screen 1: Age -->
@@ -443,8 +475,11 @@
 
   var values = { name:"", age:null, income:null, savings:null, monthly:null, targetAge:null };
 
-  document.getElementById("input-name").addEventListener("input", function(e){
-    values.name = e.target.value.trim();
+  var nameInput = document.getElementById("input-name");
+  var startBtn = document.getElementById("btn-start");
+  nameInput.addEventListener("input", function(){
+    values.name = nameInput.value.trim();
+    startBtn.disabled = values.name.length === 0;
   });
 
   function bindStep(stepNum, inputId, backTarget, key, validate){
@@ -496,6 +531,7 @@
       document.getElementById(id).value = "";
     });
     [1,2,3,4,5].forEach(function(n){ document.getElementById("next-" + n).disabled = true; });
+    startBtn.disabled = true;
     document.getElementById("doodle-circle").classList.remove("drawn");
     document.getElementById("email-results").href = "#";
     show("screen-welcome");
@@ -579,6 +615,7 @@
 
     var X = fmt(roundToThousand(r.projectedNestEgg));
     var Z = fmt(roundToThousand(r.targetNestEgg));
+    var firstName = values.name ? values.name.split(" ")[0] : "";
 
     heroEl.textContent = X;
     captionEl.textContent = "what you're on pace for by age " + targetAge;
@@ -591,16 +628,16 @@
 
     if (r.status === "ahead"){
       var Y = fmt(roundToThousand(-r.gap));
-      headlineEl.textContent = personalize(values.name, "You're ahead of where you need to be.");
+      headlineEl.textContent = personalize(firstName, "You're ahead of where you need to be.");
       bodyEl.innerHTML = "You need around <strong>" + Z + "</strong> — that's <strong>" + Y + "</strong> ahead. Nice work.";
       closerEl.textContent = "That's not just enough — that's room to actually enjoy it, not just get by.";
     } else if (r.status === "on-track"){
-      headlineEl.textContent = personalize(values.name, "You're on track.");
+      headlineEl.textContent = personalize(firstName, "You're on track.");
       bodyEl.innerHTML = "That's right around the <strong>" + Z + "</strong> you need. Keep doing what you're doing.";
       closerEl.textContent = "That's real room to spend that time on what matters, not just get through it.";
     } else {
       var gapFmt = fmt(roundToThousand(r.gap));
-      headlineEl.textContent = personalize(values.name, "You're behind — here's the gap, and here's how to close it.");
+      headlineEl.textContent = personalize(firstName, "You're behind — here's the gap, and here's how to close it.");
       bodyEl.innerHTML = "You need around <strong>" + Z + "</strong>. That's a <strong>" + gapFmt + "</strong> gap.";
 
       var hasLever = false;

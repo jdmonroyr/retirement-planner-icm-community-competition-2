@@ -190,6 +190,13 @@
   input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
   input[type=number]{ -moz-appearance:textfield; }
 
+  .field-error{
+    display:none;
+    font-size:.85rem;
+    color:var(--marker-purple);
+    margin:8px 0 0;
+  }
+
   .eyebrow{
     font-family:'Kalam','Segoe Print','Bradley Hand',cursive;
     font-weight:700;
@@ -357,7 +364,7 @@
       <div class="frame">First, the basics.</div>
       <div class="question">How old are you?</div>
       <div class="field">
-        <input type="number" id="input-age" min="1" max="110" step="1" placeholder="42" inputmode="numeric" autofocus>
+        <input type="number" id="input-age" min="18" max="100" step="1" placeholder="42" inputmode="numeric" autofocus>
       </div>
       <div class="row">
         <button class="btn btn-text" id="back-1">Back</button>
@@ -372,7 +379,7 @@
       <div class="question">What do you make a year, before taxes?</div>
       <div class="field dollar">
         <span class="prefix">$</span>
-        <input type="number" id="input-income" min="0" step="1000" placeholder="120,000" inputmode="numeric">
+        <input type="number" id="input-income" min="1" step="1000" placeholder="120,000" inputmode="numeric">
       </div>
       <div class="row">
         <button class="btn btn-text" id="back-2">Back</button>
@@ -404,6 +411,7 @@
         <span class="prefix">$</span>
         <input type="number" id="input-monthly" min="0" step="25" placeholder="800" inputmode="numeric">
       </div>
+      <p class="field-error" id="error-4"></p>
       <div class="row">
         <button class="btn btn-text" id="back-4">Back</button>
         <button class="btn btn-primary" id="next-4" disabled>Next</button>
@@ -416,8 +424,9 @@
       <div class="frame">Last one — the finish line. This is the age you get to spend on your own terms — more time with the people you actually want to be around.</div>
       <div class="question">What age do you want to retire?</div>
       <div class="field">
-        <input type="number" id="input-target-age" min="1" max="110" step="1" placeholder="65" inputmode="numeric">
+        <input type="number" id="input-target-age" min="18" max="110" step="1" placeholder="65" inputmode="numeric">
       </div>
+      <p class="field-error" id="error-5"></p>
       <div class="row">
         <button class="btn btn-text" id="back-5">Back</button>
         <button class="btn btn-primary" id="next-5" disabled>Are we okay?</button>
@@ -482,14 +491,23 @@
     startBtn.disabled = values.name.length === 0;
   });
 
-  function bindStep(stepNum, inputId, backTarget, key, validate){
+  function bindStep(stepNum, inputId, backTarget, key, validate, errorFn){
     var input = document.getElementById(inputId);
     var nextBtn = document.getElementById("next-" + stepNum);
     var backBtn = document.getElementById("back-" + stepNum);
+    var errorEl = document.getElementById("error-" + stepNum);
 
-    input.addEventListener("input", function(){
-      nextBtn.disabled = !validate(input.value);
-    });
+    function update(){
+      var ok = validate(input.value);
+      nextBtn.disabled = !ok;
+      if (errorEl){
+        var msg = (!ok && errorFn) ? errorFn(input.value) : "";
+        errorEl.textContent = msg;
+        errorEl.style.display = msg ? "block" : "none";
+      }
+    }
+
+    input.addEventListener("input", update);
     backBtn.addEventListener("click", function(){ show(backTarget); });
     nextBtn.addEventListener("click", function(){
       values[key] = parseFloat(input.value);
@@ -511,19 +529,50 @@
     var n = parseFloat(v);
     return !isNaN(n) && n >= 0;
   }
-  function isAge(v){
+  function isPositiveNumber(v){
     if (v === "" || v === null) return false;
     var n = parseFloat(v);
-    return !isNaN(n) && n > 0 && n <= 110;
+    return !isNaN(n) && n > 0;
+  }
+  function isCurrentAge(v){
+    if (v === "" || v === null) return false;
+    var n = Number(v);
+    return Number.isInteger(n) && n >= 18 && n <= 100;
+  }
+  function isTargetAge(v){
+    if (v === "" || v === null) return false;
+    var n = Number(v);
+    if (!Number.isInteger(n) || n < 18 || n > 110) return false;
+    if (values.age !== null && n < values.age) return false;
+    return true;
+  }
+  function targetAgeError(v){
+    var n = Number(v);
+    if (v === "" || isNaN(n) || values.age === null) return "";
+    if (Number.isInteger(n) && n < values.age) return "That's earlier than the age you gave us (" + values.age + ") — try that age or later.";
+    return "";
+  }
+  function isValidMonthly(v){
+    if (v === "" || v === null) return false;
+    var n = parseFloat(v);
+    if (isNaN(n) || n < 0) return false;
+    if (values.income !== null && (n * 12) > values.income) return false;
+    return true;
+  }
+  function monthlyError(v){
+    var n = parseFloat(v);
+    if (v === "" || isNaN(n) || n < 0 || values.income === null) return "";
+    if ((n * 12) > values.income) return "That's more per year than what you make (" + fmt(values.income) + ") — try a smaller monthly number.";
+    return "";
   }
 
   document.getElementById("btn-start").addEventListener("click", function(){ show("screen-1"); });
 
-  bindStep(1, "input-age", "screen-welcome", "age", isAge);
-  bindStep(2, "input-income", "screen-1", "income", isNonNegNumber);
+  bindStep(1, "input-age", "screen-welcome", "age", isCurrentAge);
+  bindStep(2, "input-income", "screen-1", "income", isPositiveNumber);
   bindStep(3, "input-savings", "screen-2", "savings", isNonNegNumber);
-  bindStep(4, "input-monthly", "screen-3", "monthly", isNonNegNumber);
-  bindStep(5, "input-target-age", "screen-4", "targetAge", isAge);
+  bindStep(4, "input-monthly", "screen-3", "monthly", isValidMonthly, monthlyError);
+  bindStep(5, "input-target-age", "screen-4", "targetAge", isTargetAge, targetAgeError);
 
   document.getElementById("start-over").addEventListener("click", function(){
     values = { name:"", age:null, income:null, savings:null, monthly:null, targetAge:null };

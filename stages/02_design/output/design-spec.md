@@ -38,6 +38,17 @@ Two levers — chosen because they're the brief's own examples, and two is enoug
 
 Round the money lever to the nearest $25/month and the years lever to the nearest whole year — false precision undercuts trust more than it builds it.
 
+## 2a. Input validation (keeping the math's assumptions true, not just non-crashing)
+
+The formulas above already degrade gracefully at the extremes — `years_to_retire` is clamped to ≥0, so a nonsensical input can't throw. But "doesn't crash" isn't the same as "produces a meaningful answer," and a couple of combinations quietly broke the model's own assumptions without any error shown:
+
+- **Target retirement age earlier than current age.** Ungated, this reads as "on pace for X by an age you've already passed," which is confusing rather than wrong-looking — worse than an obvious error, because nothing *looks* broken. Validated at step 5, against the age captured at step 1: target must be ≥ current age. Inline message (Marker Purple, not alarm-red, consistent with the "behind" state color): *"That's earlier than the age you gave us (42) — try that age or later."*
+- **Monthly savings implying annual savings greater than income.** This breaks the §1 assumption directly (`annual_expenses = income − annual_savings` would go negative, silently clamped to 0, producing a trivially "ahead" result that means nothing). Validated at step 4, against the income captured at step 2: `monthly × 12` must not exceed `income`. Inline message: *"That's more per year than what you make ($60,000) — try a smaller monthly number."*
+- **Income of $0.** Zero income makes annual expenses (and therefore the whole target) trivially zero, so every result reads "ahead" regardless of the other four answers. Income must be a positive number now, not just non-negative.
+- **Age fields.** Tightened to whole numbers, 18–100 for current age (an adult, not an edge-case toddler or a 110-year-old prospect) and 18–110 for target age. Current savings and monthly savings still allow $0 — those are real, valid answers (someone starting from nothing), unlike a $0 income.
+
+Two of these (target-age-vs-age, monthly-vs-income) get an inline message because a person could hit them honestly — a typo, or not doing the arithmetic in their head before typing. The rest fail silently (button just stays disabled), consistent with how the original five fields already behaved, since they're edge cases a genuine answer is unlikely to hit by accident.
+
 ## 3. Flow — welcome, then one question at a time
 
 Revised from a single-screen form: a bare five-field form reads cold, closer to the "bank calculator" brand-guidelines explicitly rules out. brand-guidelines.md's Elements line already leaves both doors open ("one field at a time *or* a short single-screen form") — this spec takes the paced door. Same five required fields, same cap, only the pacing changes — plus one required full-name field on the welcome screen (see below), which sits outside the cap by design.

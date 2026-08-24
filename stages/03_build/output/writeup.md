@@ -1,3 +1,8 @@
-Built for Marcus's prospects — dual-income parents, 35–55 — before their first meeting. It answers what he says every client asks: are we okay? Five questions, paced one at a time like a conversation, weigh in against the 25x rule (7% return). If you're behind, you get two ways to close the gap — save more monthly, or retire later — never just a bad number.
+👤 **Who it's for**
+Marcus's prospects — dual-income parents, 35–55 — before their first meeting, so he can spend the hour on planning, not arithmetic.
 
-Design choice: five single-question screens instead of one form, each with a short spoken line first. A wall of five fields at once read like the sterile "bank calculator" Marcus didn't want.
+⚙️ **What it does**
+Five questions, paced one at a time like a real conversation, weighed against the 25x rule. Tells you if you're ahead, on track, or behind — and if behind, exactly how much more to save or how much longer to work, never just a bad number.
+
+🎨 **One design choice, and why**
+Marcus does this math on a real whiteboard, so the tool became one: dot-grid background, marker typography, his questions in ink, your answers in green — down to a hand-drawn circle around your number, like he's circling it for you.
